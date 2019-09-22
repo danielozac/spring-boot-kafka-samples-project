@@ -1,0 +1,38 @@
+spring:
+  profiles:
+    active: dev
+
+---
+
+spring:
+  profiles: dev
+
+server:
+  port: 8081
+
+response.msg: The file has been sent.
+
+kafka.broker: localhost:9092
+enable.auto.commit: true
+auto.commit.interval.ms:  100
+group.id: group1
+kafka.auto.offset.reset: earliest
+kafka.topic: my-first-topic1
+
+
+---
+
+spring:
+  profiles: stage
+
+response.msg: The file has been sent.
+
+---
+
+spring:
+  profiles: prod
+
+response.msg: The file has been sent.
+
+
+---
