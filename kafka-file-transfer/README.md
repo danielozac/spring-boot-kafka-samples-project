@@ -1,4 +1,4 @@
-Spring Boot Kafka Samples Project
+Spring Boot Kafka File Transfer
 ================
 
 Sometimes the object you have to send to Kafka is not just a simple string or integer. Could be a zip file, Csv, Xls etc.

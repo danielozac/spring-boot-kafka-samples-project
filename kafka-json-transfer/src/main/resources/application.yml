@@ -10,7 +10,7 @@ spring:
 server:
   port: 8081
 
-response.msg: The file has been sent.
+response.msg: Json object sent.
 
 kafka.broker: localhost:9092
 enable.auto.commit: true

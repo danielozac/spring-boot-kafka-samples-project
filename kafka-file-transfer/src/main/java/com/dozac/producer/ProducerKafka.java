@@ -21,21 +21,21 @@ public class ProducerKafka {
 	 private KafkaTemplate<String, Object> kafkaTemplate;
 
 	 @Autowired
-     Environment env;
+     Environment environment;
 
 	public void sendMessage(String message, byte[] bytes){
 		Map<String, byte[]> map = new HashMap();
 		map.put(message, bytes);
 
-		ProducerRecord producerRecord = new ProducerRecord<String, Map>(env.getProperty("kafka.topic"), message, map);
+		ProducerRecord producerRecord = new ProducerRecord<String, Map>(environment.getProperty("kafka.topic"), message, map);
 
 		ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send(producerRecord);
 		future.addCallback(
 				new ListenableFutureCallback<SendResult<String,Object>>() {
 
 					@Override
-					public void onFailure(Throwable ex) {
-						log.info("Write bytes to file.");
+					public void onFailure(Throwable e) {
+						log.error("Something went wrong", e);
 					}
 
 					@Override
