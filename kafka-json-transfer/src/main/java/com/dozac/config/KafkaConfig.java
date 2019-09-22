@@ -4,6 +4,7 @@ import com.dozac.consumer.ConsumerKafka;
 import com.dozac.model.CryptoCurrency;
 import com.dozac.producer.ProducerKafka;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -42,14 +43,14 @@ public class KafkaConfig {
     }
 
     @Bean
-    public ConsumerFactory<String, CryptoCurrency> consumerFactory() {
+    public ConsumerFactory<String, List<CryptoCurrency>> consumerFactory() {
         return new DefaultKafkaConsumerFactory<>(consumerConfig(), new StringDeserializer(),
-                new JsonDeserializer<>(CryptoCurrency.class));
+                new JsonDeserializer<>());
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, CryptoCurrency> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, CryptoCurrency> factory =
+    public ConcurrentKafkaListenerContainerFactory<String, List<CryptoCurrency>> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, List<CryptoCurrency>> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;
@@ -76,12 +77,12 @@ public class KafkaConfig {
     }
 
     @Bean
-    public ProducerFactory<String, CryptoCurrency> producerFactory() {
+    public ProducerFactory<String, List<CryptoCurrency>> producerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 
     @Bean
-    public KafkaTemplate<String, CryptoCurrency> kafkaTemplate() {
+    public KafkaTemplate<String, List<CryptoCurrency>> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 

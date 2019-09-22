@@ -9,6 +9,9 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Slf4j
 public class ProducerKafka {
 
@@ -16,23 +19,23 @@ public class ProducerKafka {
     Environment environment;
 
     @Autowired
-    private KafkaTemplate<String, CryptoCurrency> kafkaTemplate;
+    private KafkaTemplate<String, List<CryptoCurrency>> kafkaTemplate;
 
 
-    public void sendMessage(CryptoCurrency cryptoCurrency){
-        ListenableFuture<SendResult<String, CryptoCurrency>> future = kafkaTemplate
-                .send(environment.getProperty("kafka.topic"), "someCrypto", cryptoCurrency);
+    public void sendMessage(List<CryptoCurrency> cryptoCurrencies){
+        ListenableFuture<SendResult<String, List<CryptoCurrency>>> future = kafkaTemplate
+                .send(environment.getProperty("kafka.topic"), "someCrypto", cryptoCurrencies);
 
         future.addCallback(
-                new ListenableFutureCallback<SendResult<String,CryptoCurrency>>() {
+                new ListenableFutureCallback<SendResult<String,List<CryptoCurrency>>>() {
 
                     @Override
-                    public void onFailure(Throwable ex) {
-                        log.error("Inside Exception", ex);
+                    public void onFailure(Throwable e) {
+                        log.error("Something went wrong", e);
                     }
 
                     @Override
-                    public void onSuccess(SendResult<String, CryptoCurrency> result) {
+                    public void onSuccess(SendResult<String, List<CryptoCurrency>> result) {
                         log.info("Success");
                     }
                 });
